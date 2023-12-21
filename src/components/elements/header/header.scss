@@ -1,0 +1,23 @@
+.header {
+	width: 100%;
+	padding: clamp(10px, 100vw * 10 / 576, 12px) clamp(12px, 100vw * 18 / 576, 18px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #00a884;
+	
+	&__body {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+@media screen and (min-width: 576px) {
+	.header {
+		&__body {
+			justify-content: flex-end;
+		}
+	}
+}

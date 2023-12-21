@@ -1,0 +1,83 @@
+.favorites {
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	position: fixed;
+	padding: clamp(62px, 100vw * 80 / 576, 80px) 8px 8px;
+	background-color: #fff5ee;;
+	overflow-y: hidden;
+	transform: translateY(100vh);
+	transition: transform 0.3s;
+	
+	&__heart-button {
+		position: absolute;
+		top: 8px;
+		right: calc(50% - 32px);
+		fill: #00a884;
+		stroke: #00a884;
+		transition: all 0.3s;
+		
+		&:hover {
+			fill: #fefefe;
+		}
+		
+		svg {
+			width: clamp(50px, 100vw * 64 / 576, 64px);
+			height: clamp(50px, 100vw * 64 / 576, 64px);
+		}
+	}
+}
+
+.favorites_open {
+	transform: translateY(0vh);
+}
+
+.joke__like-button, .joke__dislike-button, .joke__delete-button {
+	position: absolute;
+	fill: #fefefe;
+	transition: all 0.3s;
+	
+	&:active {
+		fill: #00a884;
+	}
+}
+
+.joke__like-button, .joke__dislike-button {
+	top: 6px;
+	
+	svg {
+		width: clamp(22px, 100vw * 28 / 576, 28px);
+		height: clamp(22px, 100vw * 28 / 576, 28px);
+	}
+}
+
+.joke__like-button_filled, .joke__dislike-button_filled {
+	fill: #00a884;
+}
+
+.joke__like-button {
+	left: 10px;
+}
+
+.joke__dislike-button {
+	left: clamp(54px, 100vw * 66 / 576, 66px);
+}
+
+.joke__delete-button {
+	top: 4px;
+	right: 4px;
+	
+	svg {
+		width: clamp(26px, 100vw * 32 / 576, 32px);
+		height: clamp(26px, 100vw * 32 / 576, 32px);
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.joke__like-button, .joke__dislike-button, .joke__delete-button {
+		&:hover {
+			fill: #00a884;
+		}
+	}
+}

@@ -1,0 +1,53 @@
+.button {
+	max-height: 2.5em;
+	padding: clamp(6px, 100vw * 8 / 576, 8px) clamp(14px, 100vw * 16 / 576, 16px);
+	border-radius: 4px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	font-family: Montserrat, sans-serif;
+	font-size: clamp(14px, 100vw * 16 / 576, 16px);
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.25;
+	background-color: transparent;
+	user-select: none;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.button_primary {
+	border: 2px solid #00a884;
+	color: #fefefe;
+	background-color: #00a884;
+	
+	&:active {
+		color: #00a884;
+		background-color: #fefefe;
+	}
+}
+
+.button_ghost {
+	border: 2px solid transparent;
+	color: #fefefe;
+	background-color: transparent;
+	
+	&:active {
+		border: 2px solid #fefefe;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.button_primary {
+		&:hover {
+			color: #00a884;
+			background-color: #fefefe;
+		}
+	}
+	
+	.button_ghost {
+		&:hover {
+			border: 2px solid #fefefe;
+		}
+	}
+}
