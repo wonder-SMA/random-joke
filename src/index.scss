@@ -38,10 +38,10 @@ body {
 	height: 6px !important;
 }
 
-::-webkit-scrollbar-thumb, html[dir] .light ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
 	background-color: rgba(11, 20, 26, .2);
 }
 
-::-webkit-scrollbar-track, html[dir] .light ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
 	background: rgba(255, 255, 255, .1);
 }

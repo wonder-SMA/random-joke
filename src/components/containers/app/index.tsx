@@ -18,6 +18,7 @@ const App = () => {
 
   const onOpenFavorites = useCallback(() => {
     if (favoritesRef.current) {
+      // Убираем скролл у body и показываем у всплывающего aside
       document.body.style.overflowY = "hidden";
       favoritesRef.current.style.overflowY = "auto";
       favoritesRef.current.classList.add("favorites_open");
@@ -26,6 +27,7 @@ const App = () => {
 
   const onCloseFavorites = useCallback(() => {
     if (favoritesRef.current) {
+      /* Убираем скролл у всплывающего aside и показываем у body, но с задержкой, чтобы не было сдвига при aside без скролла*/
       const timerId = setTimeout(() => {
         favoritesRef.current!.style.overflowY = "hidden";
         document.body.style.overflowY = "auto";

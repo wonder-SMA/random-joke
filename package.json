@@ -1,7 +1,7 @@
 {
-  "name": "cosy-soft-test-project",
+  "name": "the-jokes",
   "version": "1.0.0",
-  "description": "Test project",
+  "description": "The app provides random jokes about programming",
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --env mode=development",
