@@ -11,6 +11,7 @@ const jestConfig: JestConfigWithTsJest = {
     "^@/(.*)$": `${path.resolve(__dirname)}/src/$1`,
     "\\.(css|less|scss)$": "identity-obj-proxy",
   },
+  setupFilesAfterEnv: ['./setupTests.ts'],
 };
 
 export default jestConfig;

@@ -17,7 +17,7 @@ export type JokesState = {
   error: null | string;
 };
 
-const initialState: JokesState = {
+export const initialState: JokesState = {
   jokes: {},
   favoriteJokes: {},
   loading: false,
@@ -77,9 +77,13 @@ const jokesSlice = createSlice({
         state.error = null;
       })
       .addCase(getJokes.fulfilled, (state, action) => {
-        const newJokes: JokesState["jokes"] = {};
-        action.payload.forEach((item) => (newJokes[item.id] = item));
-        state.jokes = newJokes;
+        state.jokes = action.payload.reduce(
+          (acc, item) => {
+            acc[item.id] = item;
+            return acc;
+          },
+          {} as JokesState["jokes"],
+        );
         state.loading = false;
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {

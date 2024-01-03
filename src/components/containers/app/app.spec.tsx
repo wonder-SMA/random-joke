@@ -1,5 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import { renderWithRedux } from "@/utils/renderWithRedux";
 import App from "./";
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import Joke from "../joke";
 import JokeList from "./";
 import { mockListData } from "@/mock";
