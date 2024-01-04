@@ -34,22 +34,21 @@ const Favorites = forwardRef<HTMLHtmlElement, FavoritesProps>(
 
     const data = useMemo(() => Object.values(favoriteJokes), [favoriteJokes]);
 
-    const onLikeJoke = useCallback((id: number) => dispatch(likeJoke(id)), []);
+    // Возвращает функцию с замыканием на id шутки
+    const onLikeJoke = (id: number) => () => dispatch(likeJoke(id));
 
-    const onDislikeJoke = useCallback(
-      (id: number) => dispatch(dislikeJoke(id)),
-      [],
-    );
+    // Возвращает функцию с замыканием на id шутки
+    const onDislikeJoke = (id: number) => () => dispatch(dislikeJoke(id));
 
-    const onRemoveFromFavorites = useCallback(
-      (id: number) => {
+    // Возвращает функцию с замыканием на id шутки
+    const onRemoveFromFavorites = (id: number) => {
+      return () => {
         dispatch(removeFromFavorites(id));
         if (Object.keys(favoriteJokes).length === 1) {
           onCloseFavorites();
         }
-      },
-      [favoriteJokes],
-    );
+      };
+    };
 
     const renderJoke = useCallback(
       (data: IJoke | IFavoriteJoke) => (
@@ -58,7 +57,7 @@ const Favorites = forwardRef<HTMLHtmlElement, FavoritesProps>(
             className={`joke__like-button ${
               (data as IFavoriteJoke).isLiked ? "joke__like-button_filled" : ""
             }`}
-            onClick={() => onLikeJoke(data.id)}
+            onClick={onLikeJoke(data.id)}
           >
             <LikeIcon />
           </IconButton>
@@ -68,13 +67,13 @@ const Favorites = forwardRef<HTMLHtmlElement, FavoritesProps>(
                 ? "joke__dislike-button_filled"
                 : ""
             }`}
-            onClick={() => onDislikeJoke(data.id)}
+            onClick={onDislikeJoke(data.id)}
           >
             <DislikeIcon />
           </IconButton>
           <IconButton
             className="joke__delete-button"
-            onClick={() => onRemoveFromFavorites(data.id)}
+            onClick={onRemoveFromFavorites(data.id)}
           >
             <DeleteIcon />
           </IconButton>
@@ -96,4 +95,5 @@ const Favorites = forwardRef<HTMLHtmlElement, FavoritesProps>(
     );
   },
 );
+
 export default memo(Favorites);

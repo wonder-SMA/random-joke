@@ -31,17 +31,17 @@ const Main: FC<MainProps> = ({ className = "", onGetMore }) => {
 
   const data = useMemo(() => Object.values(jokes), [jokes]);
 
-  // При обработке добавления в избранное если шутка уже в избранном, то удаляем ее из избранного
-  const onAddToFavorites = useCallback(
-    (id: number) => {
+  // При обработке добавления в избранное если шутка уже в избранном, то удаляем ее из избранного.
+  // Возвращает функцию с замыканием на id шутки
+  const onAddToFavorites = (id: number) => {
+    return () => {
       if (id in favoriteJokes) {
         dispatch(removeFromFavorites(id));
       } else {
         dispatch(addToFavorites(id));
       }
-    },
-    [favoriteJokes],
-  );
+    };
+  };
 
   const renderJoke = useCallback(
     (data: IJoke) => (
@@ -50,7 +50,7 @@ const Main: FC<MainProps> = ({ className = "", onGetMore }) => {
           className={`joke__heart-button ${
             data.id in favoriteJokes ? "joke__heart-button_filled" : ""
           }`}
-          onClick={() => onAddToFavorites(data.id)}
+          onClick={onAddToFavorites(data.id)}
         >
           <HeartIcon strokeWidth={0} />
         </IconButton>

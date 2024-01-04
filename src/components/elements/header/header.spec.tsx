@@ -1,33 +1,38 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Header from "./";
 
 describe("Header", () => {
-  it("Should render with a button with the correct text value", () => {
-    const mockCallback = jest.fn();
-    render(<Header onOpenFavorites={mockCallback} />);
+  it("should render with a button with the correct text value", () => {
+    render(<Header onOpenFavorites={() => {}} />);
+
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByText("Избранное")).toBeInTheDocument();
   });
-  it("Should render with a button, which class equal to button_ghost", () => {
-    const mockCallback = jest.fn();
-    const { container } = render(<Header onOpenFavorites={mockCallback} />);
+
+  it("should render with a button whose class is equal to 'button_ghost'", () => {
+    const { container } = render(<Header onOpenFavorites={() => {}} />);
+
     expect(
       container.getElementsByClassName("button_ghost")[0],
     ).toBeInTheDocument();
   });
-  it("Should render with an onOpenFavorites callback, which works correctly", async () => {
+
+  it("should render with an 'onOpenFavorites' callback, which works correctly", () => {
     const mockCallback = jest.fn();
+
     render(<Header onOpenFavorites={mockCallback} />);
-    await userEvent.click(screen.getByRole("button"));
+
+    fireEvent.click(screen.getByRole("button"));
+
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
-  it("Should render with a class equal to header and header_mock", () => {
-    const mockCallback = jest.fn();
+
+  it("should render with a class equal to 'header' and 'header_mock'", () => {
     const { container } = render(
-      <Header className="header_mock" onOpenFavorites={mockCallback} />,
+      <Header className="header_mock" onOpenFavorites={() => {}} />,
     );
+
     expect(container.getElementsByClassName("header")[0]).toBeInTheDocument();
     expect(
       container.getElementsByClassName("header_mock")[0],
