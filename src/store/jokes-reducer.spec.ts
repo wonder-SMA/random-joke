@@ -6,12 +6,12 @@ import jokesReducer, {
   dislikeJoke,
   getJokes,
   JokesState,
-} from "@/store/jokes-slice";
-import { mockData, mockListData } from "@/mock";
+} from '@/store/jokes-slice';
+import { mockData, mockListData } from '@/mock';
 
-describe("jokesReducer", () => {
-  it("should return the initial state if an empty action is passed", () => {
-    const result = jokesReducer(undefined, { type: "" });
+describe('jokesReducer', () => {
+  it('should return the initial state if an empty action is passed', () => {
+    const result = jokesReducer(undefined, { type: '' });
 
     expect(result).toEqual(initialState);
   });
@@ -92,7 +92,7 @@ describe("jokesReducer", () => {
         acc[item.id] = item;
         return acc;
       },
-      {} as JokesState["jokes"],
+      {} as JokesState['jokes']
     );
 
     expect(result.jokes).toEqual(jokes);
@@ -102,11 +102,11 @@ describe("jokesReducer", () => {
   it("should change the loading state and error state using the 'getJokes.rejected' action", () => {
     const action = {
       type: getJokes.rejected.type,
-      payload: "500. Something went wrong",
+      payload: '500. Something went wrong',
     };
     const result = jokesReducer({ ...initialState }, action);
 
     expect(result.loading).toBe(false);
-    expect(result.error).toBe("500. Something went wrong");
+    expect(result.error).toBe('500. Something went wrong');
   });
 });

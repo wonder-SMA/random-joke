@@ -1,8 +1,8 @@
-import { FC, ReactNode } from "react";
-import classNames from "classnames";
-import { getWithFirstUpperCharText } from "@/utils/get-init-upper-char";
+import { FC, ReactNode } from 'react';
+import classNames from 'classnames';
+import { getWithFirstUpperCharText } from '@/utils/get-init-upper-char';
 import { IFavoriteJoke, IJoke } from '@/types/joke';
-import "./joke.scss";
+import './joke.scss';
 
 type JokeProps = {
   children?: ReactNode;
@@ -10,7 +10,7 @@ type JokeProps = {
   className?: string;
 };
 
-const Joke: FC<JokeProps> = ({ children, data, className = "" }) => {
+const Joke: FC<JokeProps> = ({ children, data, className = '' }) => {
   const jokeClass = classNames({
     joke: true,
     [className]: className,
@@ -24,9 +24,7 @@ const Joke: FC<JokeProps> = ({ children, data, className = "" }) => {
       </div>
       <div className="joke__section">
         <p className="joke__punchline">PUNCHLINE</p>
-        <p className="joke__punchline-text">
-          {getWithFirstUpperCharText(data.punchline)}
-        </p>
+        <p className="joke__punchline-text">{getWithFirstUpperCharText(data.punchline)}</p>
       </div>
       {children}
     </div>

@@ -1,15 +1,15 @@
-import path from "path";
-import type { JestConfigWithTsJest } from "ts-jest";
+import path from 'path';
+import type { JestConfigWithTsJest } from 'ts-jest';
 
 const jestConfig: JestConfigWithTsJest = {
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    '^.+\\.tsx?$': 'ts-jest',
   },
-  testEnvironment: "jsdom",
-  moduleDirectories: ["node_modules"],
+  testEnvironment: 'jsdom',
+  moduleDirectories: ['node_modules'],
   moduleNameMapper: {
-    "^@/(.*)$": `${path.resolve(__dirname)}/src/$1`,
-    "\\.(css|less|scss)$": "identity-obj-proxy",
+    '^@/(.*)$': `${path.resolve(__dirname)}/src/$1`,
+    '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
   setupFilesAfterEnv: ['./setupTests.ts'],
 };

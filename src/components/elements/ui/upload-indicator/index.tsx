@@ -1,17 +1,14 @@
-import React, { FC, SVGProps } from "react";
-import classNames from "classnames";
-import "./upload-indicator.scss";
+import React, { FC, SVGProps } from 'react';
+import classNames from 'classnames';
+import './upload-indicator.scss';
 
 interface UploadIndicatorProps extends SVGProps<SVGSVGElement> {
   className?: string;
 }
 
-const UploadIndicator: FC<UploadIndicatorProps> = ({
-  className = "",
-  ...props
-}) => {
+const UploadIndicator: FC<UploadIndicatorProps> = ({ className = '', ...props }) => {
   const uploadIndicatorClass = classNames({
-    "upload-indicator": true,
+    'upload-indicator': true,
     [className]: className,
   });
 
@@ -22,8 +19,7 @@ const UploadIndicator: FC<UploadIndicatorProps> = ({
         viewBox="0 0 880.000000 1280.000000"
         preserveAspectRatio="xMidYMid meet"
         className="upload-indicator__image"
-        {...props}
-      >
+        {...props}>
         <g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)">
           <path
             d="M37 12538 c12 -811 95 -1332 310 -1928 357 -993 1025 -1875 2139

@@ -1,7 +1,7 @@
 import { FC, memo, ReactNode } from 'react';
-import classNames from "classnames";
+import classNames from 'classnames';
 import { IFavoriteJoke, IJoke } from '@/types/joke';
-import "./joke-list.scss";
+import './joke-list.scss';
 
 type JokeListProps = {
   data: IJoke[];
@@ -9,15 +9,15 @@ type JokeListProps = {
   className?: string;
 };
 
-const JokeList: FC<JokeListProps> = ({ data, renderJoke, className = "" }) => {
+const JokeList: FC<JokeListProps> = ({ data, renderJoke, className = '' }) => {
   const jokeListClass = classNames({
-    "joke-list": true,
+    'joke-list': true,
     [className]: className,
   });
 
   return (
     <ul className={jokeListClass}>
-      {data.map((joke) => (
+      {data.map(joke => (
         <li className="joke-list__item" key={joke.id}>
           {renderJoke(joke)}
         </li>

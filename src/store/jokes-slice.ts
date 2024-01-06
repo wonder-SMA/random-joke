@@ -1,10 +1,5 @@
-import {
-  Action,
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from "@reduxjs/toolkit";
-import { IFavoriteJoke, IJoke } from "@/types/joke";
+import { Action, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IFavoriteJoke, IJoke } from '@/types/joke';
 
 const API_URL = process.env.API_URL;
 
@@ -24,22 +19,25 @@ export const initialState: JokesState = {
   error: null,
 };
 
-export const getJokes = createAsyncThunk<
-  IJoke[],
-  undefined,
-  { rejectValue: string }
->("jokes/getJokes", async function (_, { rejectWithValue }) {
-  const response = await fetch(API_URL + "/jokes/programming/ten");
+export const getJokes = createAsyncThunk<IJoke[], undefined, { rejectValue: string }>(
+  'jokes/getJokes',
+  async function (_, { rejectWithValue }) {
+    const response = await fetch(API_URL + '/jokes/programming/ten');
 
-  if (!response.ok) {
-    return rejectWithValue(`${response.status}. ${response.statusText}`);
+    if (!response.ok) {
+      return rejectWithValue(`${response.status}. ${response.statusText}`);
+    }
+
+    return await response.json();
   }
+);
 
-  return await response.json();
-});
+const isError = (action: Action): boolean => {
+  return action.type.endsWith('rejected');
+};
 
 const jokesSlice = createSlice({
-  name: "jokes",
+  name: 'jokes',
   initialState,
   reducers: {
     addToFavorites: (state, action: PayloadAction<number>) => {
@@ -70,9 +68,9 @@ const jokesSlice = createSlice({
       state.favoriteJokes[action.payload].isDisliked = !isDisliked;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(getJokes.pending, (state) => {
+      .addCase(getJokes.pending, state => {
         state.loading = true;
         state.error = null;
       })
@@ -82,7 +80,7 @@ const jokesSlice = createSlice({
             acc[item.id] = item;
             return acc;
           },
-          {} as JokesState["jokes"],
+          {} as JokesState['jokes']
         );
         state.loading = false;
       })
@@ -93,11 +91,6 @@ const jokesSlice = createSlice({
   },
 });
 
-const isError = (action: Action) => {
-  return action.type.endsWith("rejected");
-};
-
-export const { addToFavorites, removeFromFavorites, likeJoke, dislikeJoke } =
-  jokesSlice.actions;
+export const { addToFavorites, removeFromFavorites, likeJoke, dislikeJoke } = jokesSlice.actions;
 
 export default jokesSlice.reducer;

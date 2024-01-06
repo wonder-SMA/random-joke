@@ -1,14 +1,14 @@
-import { ButtonHTMLAttributes, FC } from "react";
-import classNames from "classnames";
-import "./icon-button.scss";
+import { ButtonHTMLAttributes, FC } from 'react';
+import classNames from 'classnames';
+import './icon-button.scss';
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-const IconButton: FC<IconButtonProps> = ({ children, className = "", ...props }) => {
+const IconButton: FC<IconButtonProps> = ({ children, className = '', ...props }) => {
   const iconButtonClass = classNames({
-    "icon-button": true,
+    'icon-button': true,
     [className]: className,
   });
 

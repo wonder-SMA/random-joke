@@ -31,6 +31,23 @@
   npm run build:prod
   ```
 
+### Lint commands
+
+- Run lint
+  ```bash
+  npm run lint
+  ```
+
+- Fix lint errors
+  ```bash
+  npm run lint:fix
+  ```
+
+- Format code
+  ```bash
+  npm run format
+  ```
+
 ### Test commands
 
 - Run unit tests
