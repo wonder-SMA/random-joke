@@ -6,24 +6,25 @@ import Joke from "./";
 
 describe("Joke", () => {
   it("should render with a children", () => {
-    render(
+    const { getByTestId } = render(
       <Joke data={mockData}>
         <svg data-testid="svg" />
       </Joke>,
     );
 
-    expect(screen.getByTestId("svg")).toBeInTheDocument();
+    expect(getByTestId("svg")).toBeInTheDocument();
   });
 
   it("should be displayed with the passed data", () => {
-    const { container } = render(<Joke data={mockData} />);
+    render(<Joke data={mockData} />);
 
     expect(
-      container.getElementsByClassName("joke__setup-text")[0],
-    ).toHaveTextContent(getWithFirstUpperCharText(mockData.setup));
+      screen.getByText(getWithFirstUpperCharText(mockData.setup)),
+    ).toHaveClass("joke__setup-text");
+
     expect(
-      container.getElementsByClassName("joke__punchline-text")[0],
-    ).toHaveTextContent(getWithFirstUpperCharText(mockData.punchline));
+      screen.getByText(getWithFirstUpperCharText(mockData.punchline)),
+    ).toHaveClass("joke__punchline-text");
   });
 
   it("should render with a class equal to 'joke' and 'joke_mock'", () => {
@@ -31,9 +32,7 @@ describe("Joke", () => {
       <Joke className="joke_mock" data={mockData} />,
     );
 
-    expect(container.getElementsByClassName("joke")[0]).toBeInTheDocument();
-    expect(
-      container.getElementsByClassName("joke_mock")[0],
-    ).toBeInTheDocument();
+    expect(container.firstChild).toHaveClass("joke");
+    expect(container.firstChild).toHaveClass("joke_mock");
   });
 });

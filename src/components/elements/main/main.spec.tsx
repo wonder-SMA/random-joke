@@ -1,6 +1,7 @@
 import React from "react";
 import * as reduxHooks from "react-redux";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import Main from "./";
 import { initialState } from "@/store/jokes-slice";
 import { mockData } from "@/mock";
@@ -14,45 +15,41 @@ mockedUseSelector.mockReturnValue(initialState);
 
 describe("Main", () => {
   it("should render with a 'h1' with the correct text value", () => {
-    const { container } = render(<Main onGetMore={() => {}} />);
+    render(<Main onGetMore={() => {}} />);
 
-    expect(container.getElementsByClassName("main__title")[0]);
-    expect(screen.getByText("The Jokes")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 1, name: /The Jokes/ }),
+    ).toBeInTheDocument();
   });
 
   it("should render with a child element whose class is equal to 'joke-list'", () => {
-    const { container } = render(<Main onGetMore={() => {}} />);
+    render(<Main onGetMore={() => {}} />);
 
-    expect(
-      container.getElementsByClassName("joke-list")[0],
-    ).toBeInTheDocument();
+    expect(screen.getByRole("list")).toHaveClass("joke-list");
   });
 
   it("should render with a button with the correct text value", () => {
     render(<Main onGetMore={() => {}} />);
 
-    expect(screen.getByRole("button")).toBeInTheDocument();
-    expect(screen.getByText("ЕЩЕ")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ЕЩЕ/ })).toBeInTheDocument();
   });
 
-  it("should render with the 'onGetMore' callback, which works correctly", () => {
+  it("should render with the 'onGetMore' callback, which works correctly", async () => {
     const mockCallback = jest.fn();
 
     render(<Main onGetMore={mockCallback} />);
 
-    fireEvent.click(screen.getByRole("button"));
+    const button = await screen.findByRole("button", { name: /ЕЩЕ/ });
+    await userEvent.click(button);
 
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 
   it("should render with a class equal to 'main' and 'main_mock'", () => {
-    const { container } = render(
-      <Main className="main_mock" onGetMore={() => {}} />,
-    );
+    render(<Main className="main_mock" onGetMore={() => {}} />);
 
-    expect(
-      container.getElementsByClassName("main_mock")[0],
-    ).toBeInTheDocument();
+    expect(screen.getByRole("main")).toHaveClass("main");
+    expect(screen.getByRole("main")).toHaveClass("main_mock");
   });
 
   it("should render with an upload indicator if loading state equal to true", () => {
@@ -60,17 +57,17 @@ describe("Main", () => {
 
     const { container } = render(<Main onGetMore={() => {}} />);
 
-    expect(
-      container.getElementsByClassName("upload-indicator")[0],
-    ).toBeInTheDocument();
+    expect(container.getElementsByClassName("upload-indicator").length).toBe(1);
   });
 
   it("shouldn't render with a button if loading state equal to true", () => {
     mockedUseSelector.mockReturnValue({ ...initialState, loading: true });
 
-    const { container } = render(<Main onGetMore={() => {}} />);
+    render(<Main onGetMore={() => {}} />);
 
-    expect(container.getElementsByTagName("button").length).toBe(0);
+    expect(
+      screen.queryByRole("button", { name: /ЕЩЕ/ }),
+    ).not.toBeInTheDocument();
   });
 
   describe("Joke", () => {
@@ -82,14 +79,14 @@ describe("Main", () => {
       },
     };
 
-    it("should render with the passed button with the 'onAddToFavorites' callback, which works correctly", () => {
+    it("should render with the passed button with the 'onAddToFavorites' callback, which works correctly", async () => {
       const mockCallback = jest.fn();
       mockedUseSelector.mockReturnValue(mockState);
       mockedDispatch.mockReturnValue(mockCallback);
 
       const { container } = render(<Main onGetMore={() => {}} />);
 
-      fireEvent.click(
+      await userEvent.click(
         container.getElementsByClassName("joke__heart-button")[0],
       );
 

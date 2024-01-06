@@ -8,8 +8,6 @@ describe("UploadIndicator", () => {
       <UploadIndicator className="upload-indicator_mock" />,
     );
 
-    expect(
-      container.getElementsByClassName("upload-indicator_mock")[0],
-    ).toBeInTheDocument();
+    expect(container.firstChild).toHaveClass("upload-indicator_mock");
   });
 });

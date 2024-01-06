@@ -1,14 +1,20 @@
 import React from "react";
+import { act, screen } from "@testing-library/react";
 import { renderWithRedux } from "@/utils/renderWithRedux";
 import App from "./";
 
 describe("App", () => {
-  it("should render with child elements with class equal to header, main and favorites", () => {
-    const { container } = renderWithRedux(<App />);
-    expect(container.getElementsByClassName("header")[0]).toBeInTheDocument();
-    expect(container.getElementsByClassName("main")[0]).toBeInTheDocument();
-    expect(
-      container.getElementsByClassName("favorites")[0],
-    ).toBeInTheDocument();
+  it("should render with a 'header', 'main' and 'aside'", async () => {
+    renderWithRedux(<App />);
+
+    await act(async () => {
+      // header has 'banner' role name
+      expect(screen.getByRole("banner")).toBeInTheDocument();
+
+      expect(screen.getByRole("main")).toBeInTheDocument();
+
+      // aside has 'complementary' role name
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+    });
   });
 });

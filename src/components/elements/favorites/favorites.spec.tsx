@@ -1,6 +1,7 @@
 import React from "react";
 import * as reduxHooks from "react-redux";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import Favorites from "./";
 import { initialState } from "@/store/jokes-slice";
 import { mockData } from "@/mock";
@@ -14,40 +15,36 @@ mockedUseSelector.mockReturnValue(initialState);
 
 describe("Favorites", () => {
   it("should render with a child element whose class is equal to 'joke-list'", () => {
-    const { container } = render(<Favorites onCloseFavorites={() => {}} />);
+    render(<Favorites onCloseFavorites={() => {}} />);
 
-    expect(
-      container.getElementsByClassName("joke-list")[0],
-    ).toBeInTheDocument();
+    expect(screen.getByRole("list")).toHaveClass("joke-list");
   });
 
   it("should render with a button whose class is equal to 'favorites__heart-button'", () => {
     const { container } = render(<Favorites onCloseFavorites={() => {}} />);
 
     expect(
-      container.getElementsByClassName("favorites__heart-button")[0],
-    ).toBeInTheDocument();
+      container.getElementsByClassName("favorites__heart-button").length,
+    ).toBe(1);
   });
 
-  it("should render with a button with the 'onCloseFavorites' callback, which works correctly", () => {
+  it("should render with a button with the 'onCloseFavorites' callback, which works correctly", async () => {
     const mockCallback = jest.fn();
+
     render(<Favorites onCloseFavorites={mockCallback} />);
-    fireEvent.click(screen.getByRole("button"));
+
+    await userEvent.click(screen.getByRole("button"));
 
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 
   it("should render with a class equal to 'favorites' and 'favorites_mock'", () => {
-    const { container } = render(
+    render(
       <Favorites className="favorites_mock" onCloseFavorites={() => {}} />,
     );
 
-    expect(
-      container.getElementsByClassName("favorites")[0],
-    ).toBeInTheDocument();
-    expect(
-      container.getElementsByClassName("favorites_mock")[0],
-    ).toBeInTheDocument();
+    expect(screen.getByRole("complementary")).toHaveClass("favorites");
+    expect(screen.getByRole("complementary")).toHaveClass("favorites_mock");
   });
 
   describe("Joke", () => {
@@ -76,14 +73,16 @@ describe("Favorites", () => {
       ).toBe(1);
     });
 
-    it("should render with the passed 'Like' button with the 'onLikeJoke' callback, which works correctly", () => {
+    it("should render with the passed 'Like' button with the 'onLikeJoke' callback, which works correctly", async () => {
       const mockCallback = jest.fn();
       mockedUseSelector.mockReturnValue(mockState);
       mockedDispatch.mockReturnValue(mockCallback);
 
       const { container } = render(<Favorites onCloseFavorites={() => {}} />);
 
-      fireEvent.click(container.getElementsByClassName("joke__like-button")[0]);
+      await userEvent.click(
+        container.getElementsByClassName("joke__like-button")[0],
+      );
 
       expect(mockCallback).toHaveBeenCalledTimes(1);
       expect(mockCallback).toHaveBeenCalledWith({
@@ -110,14 +109,14 @@ describe("Favorites", () => {
       ).toBe(1);
     });
 
-    it("should render with the passed 'Dislike' button with the 'onDislikeJoke' callback, which works correctly", () => {
+    it("should render with the passed 'Dislike' button with the 'onDislikeJoke' callback, which works correctly", async () => {
       const mockCallback = jest.fn();
       mockedUseSelector.mockReturnValue(mockState);
       mockedDispatch.mockReturnValue(mockCallback);
 
       const { container } = render(<Favorites onCloseFavorites={() => {}} />);
 
-      fireEvent.click(
+      await userEvent.click(
         container.getElementsByClassName("joke__dislike-button")[0],
       );
 
@@ -138,22 +137,26 @@ describe("Favorites", () => {
       ).toBe(1);
     });
 
-    it("should render with the passed 'Delete' button with the 'onRemoveFromFavorites' callback, which works correctly", () => {
-      const mockCallback = jest.fn();
-      mockedUseSelector.mockReturnValue(mockState);
-      mockedDispatch.mockReturnValue(mockCallback);
+    it(
+      "should render with the passed 'Delete' button with the 'onRemoveFromFavorites' callback, which works" +
+        " correctly",
+      async () => {
+        const mockCallback = jest.fn();
+        mockedUseSelector.mockReturnValue(mockState);
+        mockedDispatch.mockReturnValue(mockCallback);
 
-      const { container } = render(<Favorites onCloseFavorites={() => {}} />);
+        const { container } = render(<Favorites onCloseFavorites={() => {}} />);
 
-      fireEvent.click(
-        container.getElementsByClassName("joke__delete-button")[0],
-      );
+        await userEvent.click(
+          container.getElementsByClassName("joke__delete-button")[0],
+        );
 
-      expect(mockCallback).toHaveBeenCalledTimes(1);
-      expect(mockCallback).toHaveBeenCalledWith({
-        payload: mockData.id,
-        type: "jokes/removeFromFavorites",
-      });
-    });
+        expect(mockCallback).toHaveBeenCalledTimes(1);
+        expect(mockCallback).toHaveBeenCalledWith({
+          payload: mockData.id,
+          type: "jokes/removeFromFavorites",
+        });
+      },
+    );
   });
 });
